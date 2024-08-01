@@ -1,16 +1,12 @@
-package dojo.supermarket.model
+package supermarket.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import supermarket.model.*
-
-val APPLE = Product("apples", ProductUnit.Kilo)
-val BANANA = Product("bananas", ProductUnit.Kilo)
 
 class TellerTest {
 
-    private val catalog = FakeCatalog().apply {
+    private val catalog = CatalogFixture().apply {
         addProduct(APPLE, 1.99)
         addProduct(BANANA, 2.99)
     }
