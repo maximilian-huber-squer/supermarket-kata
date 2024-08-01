@@ -1,7 +1,6 @@
 package dojo.supermarket.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import supermarket.model.*
@@ -9,7 +8,7 @@ import supermarket.model.*
 val APPLE = Product("apples", ProductUnit.Kilo)
 val BANANA = Product("bananas", ProductUnit.Kilo)
 
-class SupermarketTest {
+class TellerTest {
 
     private val catalog = FakeCatalog().apply {
         addProduct(APPLE, 1.99)
@@ -24,7 +23,7 @@ class SupermarketTest {
 
         val receipt = Teller(catalog).checksOutArticlesFrom(cart)
 
-        assertEquals(receipt.totalPrice, 1.99)
+        assertEquals(1.99, receipt.totalPrice)
     }
 
     @Test
@@ -35,7 +34,7 @@ class SupermarketTest {
 
         val receipt = Teller(catalog).checksOutArticlesFrom(cart)
 
-        assertEquals(receipt.totalPrice, 3.98)
+        assertEquals(3.98, receipt.totalPrice)
     }
 
     @Test
@@ -47,7 +46,7 @@ class SupermarketTest {
 
         val receipt = Teller(catalog).checksOutArticlesFrom(cart)
 
-        assertEquals(receipt.totalPrice, 3.98)
+        assertEquals(3.98, receipt.totalPrice)
     }
 
 
@@ -60,7 +59,7 @@ class SupermarketTest {
 
         val receipt = Teller(catalog).checksOutArticlesFrom(cart)
 
-        assertEquals(receipt.totalPrice, 4.98)
+        assertEquals(4.98, receipt.totalPrice)
     }
 
     @Test
@@ -72,5 +71,18 @@ class SupermarketTest {
         assertThrows<ProductNotExistingInCatalogException> {
             Teller(catalog).checksOutArticlesFrom(cart)
         }
+    }
+
+    @Test
+    fun `When product has special offer type three for two and you have three products should apply offer`() {
+        val cart = ShoppingCart().apply {
+            addItemQuantity(APPLE, 3.0)
+        }
+
+        val teller = Teller(catalog)
+        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, APPLE, 10.0)
+        val receipt = teller.checksOutArticlesFrom(cart)
+
+        assertEquals(3.98, receipt.totalPrice)
     }
 }
