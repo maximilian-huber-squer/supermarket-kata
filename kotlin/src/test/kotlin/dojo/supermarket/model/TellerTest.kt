@@ -85,4 +85,17 @@ class TellerTest {
 
         assertEquals(3.98, receipt.totalPrice)
     }
+
+    @Test
+    fun `When product has special offer type two for amount and the amount is 1, 10 products should be 5`() {
+        val cart = ShoppingCart().apply {
+            addItemQuantity(APPLE, 10.0)
+        }
+
+        val teller = Teller(catalog)
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, APPLE, 1.0)
+        val receipt = teller.checksOutArticlesFrom(cart)
+
+        assertEquals(5.0, receipt.totalPrice)
+    }
 }
