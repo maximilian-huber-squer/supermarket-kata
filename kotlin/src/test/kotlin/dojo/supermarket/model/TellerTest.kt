@@ -98,4 +98,30 @@ class TellerTest {
 
         assertEquals(5.0, receipt.totalPrice)
     }
+
+    @Test
+    fun `When product has special offer type ten percent discount, the total price should be reduced by ten percent`() {
+        val cart = ShoppingCart().apply {
+            addItemQuantity(APPLE, 100.0)
+        }
+
+        val teller = Teller(catalog)
+        teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, APPLE, 1.0)
+        val receipt = teller.checksOutArticlesFrom(cart)
+
+        assertEquals(197.01, receipt.totalPrice)
+    }
+
+    @Test
+    fun `When product has special offer type five for amount, the total price should be the amount of the product times the amount divided by five`() {
+        val cart = ShoppingCart().apply {
+            addItemQuantity(APPLE, 10.0)
+        }
+
+        val teller = Teller(catalog)
+        teller.addSpecialOffer(SpecialOfferType.FiveForAmount, APPLE, 5.0)
+        val receipt = teller.checksOutArticlesFrom(cart)
+
+        assertEquals(10.0, receipt.totalPrice)
+    }
 }
