@@ -6,7 +6,7 @@ import supermarket.model.*
 
 class SupermarketTest {
     @Test
-    fun `Normal product with no discounts`() {
+    fun `When no discounts is given for a single product, then the unit-price should be the total-price`() {
         val catalog = FakeCatalog()
         val apples = Product("apples", ProductUnit.Kilo)
         catalog.addProduct(apples, 1.99)
